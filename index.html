@@ -3,196 +3,1101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رقمنة الأراضي الفلاحية - المهندس حاج عبد القادر سمير</title>
+    <title>رقمنة الأراضي الفلاحية — المهندس حاج عبد القادر سمير</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --primary-color: #2e7d32; /* أخضر غامق فلاحي */
-            --secondary-color: #f5f5f5;
-            --accent-color: #ffd600;
-            --text-dark: #333;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-            background-color: var(--secondary-color);
-            color: var(--text-dark);
-        }
-        header {
-            background: linear-gradient(135deg, #1b5e20, #2e7d32);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .container {
-            max-width: 1000px;
-            margin: -30px auto 40px;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        .intro-card {
-            background: #e8f5e9;
-            border-right: 6px solid var(--primary-color);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        h1 { margin: 0; font-size: 2.2rem; }
-        h2 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 8px; margin-top: 30px; }
-        
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-        .video-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .video-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-        .video-info { padding: 15px; }
-        .video-info h3 { font-size: 1.1rem; margin: 0 0 10px; color: var(--primary-color); height: 50px; overflow: hidden; }
-        
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            background: #000;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; border: 0;
+            --g1: #0a2e0f;
+            --g2: #1a4d22;
+            --g3: #2e7d32;
+            --g4: #4caf50;
+            --g5: #a5d6a7;
+            --gold: #e6c84a;
+            --gold-light: #fff3b0;
+            --white: #ffffff;
+            --off-white: #f0f4f1;
+            --card-bg: #ffffff;
+            --text: #1a2e1c;
+            --text-muted: #4a6650;
+            --border: rgba(46,125,50,0.15);
+            --shadow-card: 0 8px 40px rgba(10,46,15,0.10);
+            --shadow-hover: 0 20px 60px rgba(10,46,15,0.18);
+            --radius: 18px;
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 1.6rem; }
-            .container { margin-top: 0; border-radius: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: var(--off-white);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ====== SCROLLBAR ====== */
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: var(--g1); }
+        ::-webkit-scrollbar-thumb { background: var(--g3); border-radius: 10px; }
+
+        /* ====== NOISE TEXTURE OVERLAY ====== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ====== NAV ====== */
+        nav {
+            position: fixed;
+            top: 0; right: 0; left: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 40px;
+            background: rgba(10,46,15,0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: padding 0.3s;
+        }
+
+        nav.scrolled { padding: 12px 40px; }
+
+        .nav-logo {
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 1.15rem;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-logo .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--gold);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: var(--g1);
+            font-size: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        /* ====== HERO ====== */
+        .hero {
+            min-height: 100vh;
+            background: 
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(46,125,50,0.35) 0%, transparent 70%),
+                linear-gradient(170deg, var(--g1) 0%, #0e2a12 55%, #122e14 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated grid background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(46,125,50,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(46,125,50,0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            from { transform: translateY(0); }
+            to { transform: translateY(60px); }
+        }
+
+        /* Floating orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.18;
+            animation: orb-float 8s ease-in-out infinite alternate;
+        }
+
+        .orb-1 { width: 500px; height: 500px; background: var(--g3); top: -100px; left: -100px; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: #1b8c3a; bottom: -80px; right: -80px; animation-delay: -3s; }
+        .orb-3 { width: 200px; height: 200px; background: var(--gold); top: 40%; left: 50%; animation-delay: -5s; }
+
+        @keyframes orb-float {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(30px, -30px) scale(1.08); }
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 780px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(230,200,74,0.15);
+            border: 1px solid rgba(230,200,74,0.4);
+            color: var(--gold);
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            animation: fade-in-down 0.8s ease forwards;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fade-in-down {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 900;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 20px;
+            animation: fade-in-up 0.9s 0.15s ease both;
+        }
+
+        .hero h1 .highlight {
+            color: var(--gold);
+            position: relative;
+        }
+
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: 0; left: 0;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: right;
+            animation: underline-reveal 0.6s 1s ease forwards;
+        }
+
+        @keyframes underline-reveal {
+            to { transform: scaleX(1); }
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 40px;
+            line-height: 1.8;
+            animation: fade-in-up 0.9s 0.3s ease both;
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-in-up 0.9s 0.45s ease both;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--g1);
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 8px 30px rgba(230,200,74,0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(230,200,74,0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.25s, transform 0.25s;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Hero stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+            animation: fade-in-up 0.9s 0.6s ease both;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-num {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 6px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.15);
+            align-self: stretch;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.35);
+            font-size: 0.75rem;
+            animation: fade-in-up 1s 1.2s ease both;
+        }
+
+        .scroll-mouse {
+            width: 24px; height: 38px;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-mouse::after {
+            content: '';
+            position: absolute;
+            top: 6px; left: 50%; transform: translateX(-50%);
+            width: 3px; height: 7px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 2px;
+            animation: scroll-dot 1.8s ease-in-out infinite;
+        }
+
+        @keyframes scroll-dot {
+            0%, 100% { top: 6px; opacity: 1; }
+            80% { top: 18px; opacity: 0; }
+        }
+
+        /* ====== SECTION WRAPPER ====== */
+        .section {
+            padding: 90px 20px;
+            position: relative;
+        }
+
+        .container { max-width: 1150px; margin: 0 auto; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(46,125,50,0.1);
+            border: 1px solid rgba(46,125,50,0.25);
+            color: var(--g3);
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+            font-weight: 900;
+            color: var(--g1);
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .section-sub {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ====== ABOUT CARD ====== */
+        .about-section { background: var(--white); }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-avatar {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--g2), var(--g3));
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: rgba(255,255,255,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-avatar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .about-avatar-icon {
+            font-size: 4rem;
+            z-index: 1;
+        }
+
+        .about-avatar-name {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .about-avatar-role {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            z-index: 1;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .about-badge-pill {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--g1);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            box-shadow: 0 6px 24px rgba(230,200,74,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-text { padding-bottom: 20px; }
+
+        .about-text h2 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 900;
+            color: var(--g1);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.92rem;
+            color: var(--text);
+        }
+
+        .feature-list li .icon-check {
+            width: 28px; height: 28px;
+            background: rgba(46,125,50,0.12);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: var(--g3);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        /* ====== SHARE BAR ====== */
+        .share-bar {
+            background: linear-gradient(135deg, var(--g1), #1a3d1e);
+            padding: 40px 20px;
+        }
+
+        .share-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .share-inner h3 {
+            font-family: 'Tajawal', sans-serif;
+            color: var(--white);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .share-inner p { color: rgba(255,255,255,0.55); font-size: 0.88rem; margin-bottom: 24px; }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 11px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.88rem;
+            transition: transform 0.25s, box-shadow 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .share-btn:hover { transform: translateY(-3px); }
+        .share-btn.wa { background: #25D366; box-shadow: 0 6px 20px rgba(37,211,102,0.35); }
+        .share-btn.fb { background: #1877F2; box-shadow: 0 6px 20px rgba(24,119,242,0.35); }
+        .share-btn.tw { background: #1DA1F2; box-shadow: 0 6px 20px rgba(29,161,242,0.35); }
+        .share-btn.cp { background: rgba(255,255,255,0.15); box-shadow: none; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* ====== VIDEOS SECTION ====== */
+        .videos-section { background: var(--off-white); }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 28px;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-card);
+            transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s;
+            position: relative;
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--g3), var(--g5));
+            transition: width 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .video-card:hover::before { width: 6px; }
+
+        .video-thumb-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            background: #0a2e0f;
+            overflow: hidden;
+        }
+
+        .video-thumb-wrapper iframe {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        /* Thumbnail click-to-play */
+        .yt-thumb {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .yt-thumb img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease, filter 0.3s;
+            filter: brightness(0.85);
+        }
+
+        .yt-thumb:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.65);
+        }
+
+        .yt-play-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 62px; height: 62px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s, background 0.25s;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .yt-play-btn i {
+            color: #ff0000;
+            font-size: 1.5rem;
+            margin-right: -3px; /* optical center */
+        }
+
+        .yt-thumb:hover .yt-play-btn {
+            transform: translate(-50%, -50%) scale(1.12);
+            background: white;
+        }
+
+        .yt-thumb-loaded iframe {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .video-number {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(10,46,15,0.85);
+            backdrop-filter: blur(8px);
+            color: var(--gold);
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(230,200,74,0.3);
+            z-index: 2;
+        }
+
+        .video-body {
+            padding: 20px 22px;
+        }
+
+        .video-body h3 {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--g1);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-tag {
+            background: rgba(46,125,50,0.08);
+            color: var(--g3);
+            border: 1px solid rgba(46,125,50,0.2);
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .video-dot { color: var(--text-muted); font-size: 0.75rem; margin-right: auto; }
+
+        /* ====== FOOTER ====== */
+        footer {
+            background: var(--g1);
+            padding: 60px 20px 30px;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .footer-desc {
+            font-size: 0.88rem;
+            max-width: 420px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .footer-social a {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            display: grid;
+            place-items: center;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--g1);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .footer-divider {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin: 0 auto 24px;
+            max-width: 400px;
+        }
+
+        .footer-copy { font-size: 0.8rem; }
+
+        /* ====== REVEAL ANIMATION ====== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ====== MOBILE ====== */
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+            .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 50px; }
+            .hero-stats { gap: 30px; }
+            .stat-divider { display: none; }
             .video-grid { grid-template-columns: 1fr; }
         }
+
+        /* ====== TOAST ====== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--g1);
+            border: 1px solid var(--g3);
+            color: var(--white);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 999;
+            transition: transform 0.4s cubic-bezier(.25,.8,.25,1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>رقمنة الأراضي الفلاحية</h1>
-    <p>بوابة المهندس التقنية لتطوير الفلاحة</p>
-</header>
+<!-- ===== NAV ===== -->
+<nav id="mainNav">
+    <a href="#" class="nav-logo">
+        <span class="logo-icon"><i class="fas fa-seedling"></i></span>
+        رقمنة الأراضي
+    </a>
+    <ul class="nav-links">
+        <li><a href="#about">عن المهندس</a></li>
+        <li><a href="#videos">الدروس</a></li>
+        <li><a href="#share">المشاركة</a></li>
+    </ul>
+</nav>
 
-<div class="container">
-    <div class="intro-card">
-        <p><strong>تعريف بصاحب المحتوى:</strong> حاج عبد القادر سمير، مهندس رئيسي فلاحي بمديرية المصالح الفلاحية لولاية تلمسان.</p>
-        <p>نعمل من خلال هذا البرنامج على <strong>رقمنة الأراضي الفلاحية (SAU)</strong> بدقة متناهية، مما يتيح لنا حساب المساحات بدقة وبناء قاعدة بيانات إحصائية فعالة لدعم اتخاذ القرارات الاستراتيجية في القطاع الفلاحي.</p>
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-map-marked-alt"></i>
+            منصة تعليمية متخصصة
+        </div>
+        <h1>رقمنة <span class="highlight">الأراضي الفلاحية</span> بدقة عالية</h1>
+        <p>تعلم استخدام برنامج QGIS من الصفر حتى الاحتراف، مع المهندس حاج عبد القادر سمير، مهندس فلاحي متخصص في التقنيات الجيومكانية.</p>
+
+        <div class="hero-actions">
+            <a href="#videos" class="btn-primary">
+                <i class="fas fa-play"></i>
+                ابدأ التعلم الآن
+            </a>
+            <a href="https://youtube.com/@samirqgis" target="_blank" class="btn-secondary">
+                <i class="fab fa-youtube"></i>
+                قناة يوتيوب
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-num">13</span>
+                <span class="stat-label">درساً تطبيقياً</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">QGIS</span>
+                <span class="stat-label">البرنامج المستخدم</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">SAU</span>
+                <span class="stat-label">رقمنة المساحات</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">مجاني</span>
+                <span class="stat-label">بالكامل</span>
+            </div>
+        </div>
     </div>
 
-    <h2>دليل استخدام برنامج QGIS في الرقمنة</h2>
-    <div class="video-grid">
+    <div class="scroll-indicator">
+        <div class="scroll-mouse"></div>
+        <span>انزل للأسفل</span>
+    </div>
+</section>
 
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/uhgcMapaLAw" allowfullscreen></iframe>
+<!-- ===== ABOUT ===== -->
+<section class="section about-section" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-visual reveal">
+                <div class="about-avatar">
+                    <div class="about-avatar-icon">🧑‍💼</div>
+                    <div class="about-avatar-name">م. حاج عبد القادر سمير</div>
+                    <div class="about-avatar-role">مهندس رئيسي فلاحي — مديرية المصالح الفلاحية، ولاية تلمسان</div>
+                </div>
+                <div class="about-badge-pill">
+                    <i class="fas fa-map"></i>
+                    خبير في نظم المعلومات الجغرافية
+                </div>
             </div>
-            <div class="video-info"><h3>المقدمة والتعريف</h3></div>
-        </div>
 
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/vgDLf2Fq8gk" allowfullscreen></iframe>
+            <div class="about-text reveal">
+                <h2>التقنيات الجيومكانية في خدمة الفلاحة الجزائرية</h2>
+                <p>يقدم المهندس سمير هذه السلسلة التعليمية المتكاملة لتدريب المهندسين الزراعيين وكل المهتمين على توظيف أدوات QGIS في رقمنة المساحات الزراعية (SAU) بدقة علمية.</p>
+                <p>الهدف النهائي هو دعم الإحصاء الزراعي الوطني وتمكين متخذي القرار من بيانات جيومكانية موثوقة وحديثة.</p>
+
+                <ul class="feature-list">
+                    <li>
+                        <span class="icon-check"><i class="fas fa-check"></i></span>
+                        شرح مبسط لكل أدوات رقمنة الأراضي
+                    </li>
+                    <li>
+                        <span class="icon-check"><i class="fas fa-check"></i></span>
+                        تطبيق ميداني عبر تطبيق QField
+                    </li>
+                    <li>
+                        <span class="icon-check"><i class="fas fa-check"></i></span>
+                        التحقق من دقة البيانات ومنع التداخل
+                    </li>
+                    <li>
+                        <span class="icon-check"><i class="fas fa-check"></i></span>
+                        جمع ودمج الملفات من أجهزة متعددة
+                    </li>
+                </ul>
             </div>
-            <div class="video-info"><h3>متطلبات تشغيل QGIS</h3></div>
         </div>
+    </div>
+</section>
 
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/OGDFM247veU" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>تثبيت البرنامج (Win 10/11)</h3></div>
+<!-- ===== SHARE BAR ===== -->
+<div class="share-bar" id="share">
+    <div class="share-inner reveal">
+        <h3><i class="fas fa-share-alt"></i> &nbsp;انشر هذه المنصة مع زملائك</h3>
+        <p>ساهم في نشر المعرفة التقنية بين المهندسين الزراعيين في الجزائر</p>
+        <div class="share-buttons">
+            <button onclick="shareOn('wa')" class="share-btn wa"><i class="fab fa-whatsapp"></i> واتساب</button>
+            <button onclick="shareOn('fb')" class="share-btn fb"><i class="fab fa-facebook-f"></i> فيسبوك</button>
+            <button onclick="shareOn('tw')" class="share-btn tw"><i class="fab fa-twitter"></i> تويتر</button>
+            <button onclick="copyLink()" class="share-btn cp"><i class="fas fa-link"></i> نسخ الرابط</button>
         </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/VukMOkjc6Q0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>إعدادات وفتح مشروع جديد</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/Y3Gzkqu5QiQ" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>رسم الأرض على الطبقة المستهدفة</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/UYbhoD-qeIc" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>حذف مساحة غير فلاحية (داخلية)</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/GLKCVIbCijE" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>حذف مساحة تشطر الأرض لقسمين</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/Tc746GM8eY0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>تعديل حدود الأرض المرسومة</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/SAifbiTFoac" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>تجنب تداخل الحدود المشتركة</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/_0B9vHsUeOA" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>التحقق من عدم تداخل الحدود</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/TrWqqBku6BY" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>خاصية منع تداخل الحدود</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/mkWVeX0zx2Q" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>جمع الملفات من أجهزة مختلفة</h3></div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/KgVCioDJHRQ" allowfullscreen></iframe>
-            </div>
-            <div class="video-info"><h3>مقدمة عن تطبيق Qfield</h3></div>
-        </div>
-
     </div>
 </div>
 
-<footer style="text-align: center; padding: 20px; color: #666; font-size: 0.9rem;">
-    جميع الحقوق محفوظة للمهندس حاج عبد القادر سمير &copy; 2026
+<!-- ===== VIDEOS ===== -->
+<section class="section videos-section" id="videos">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-graduation-cap"></i> &nbsp;الدروس التطبيقية</div>
+            <h2 class="section-title">تعلم QGIS خطوة بخطوة</h2>
+            <p class="section-sub">سلسلة من 13 درساً تغطي كل ما تحتاجه من تثبيت البرنامج حتى العمل الميداني الاحترافي</p>
+        </div>
+
+        <div class="video-grid" id="videoGrid"></div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="footer-logo">🌿 رقمنة الأراضي الفلاحية</div>
+    <p class="footer-desc">منصة المهندس حاج عبد القادر سمير للتقنيات الجيومكانية في خدمة الفلاحة الجزائرية — تلمسان</p>
+
+    <div class="footer-social">
+        <a href="https://youtube.com/@samirqgis" target="_blank" title="يوتيوب">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#share" title="شارك">
+            <i class="fas fa-share-alt"></i>
+        </a>
+    </div>
+
+    <hr class="footer-divider">
+    <p class="footer-copy">جميع الحقوق محفوظة &copy; 2026 — المهندس حاج عبد القادر سمير</p>
 </footer>
 
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fas fa-check-circle" style="color:#4caf50"></i> تم نسخ الرابط!</div>
+
+<script>
+    // ====== VIDEO DATA ======
+    const videos = [
+        { id: "uhgcMapaLAw", title: "مقدمة وتعريف بالرقمنة", tag: "مقدمة" },
+        { id: "vgDLf2Fq8gk", title: "متطلبات تشغيل برنامج QGIS", tag: "إعداد" },
+        { id: "OGDFM247veU", title: "كيفية تثبيت البرنامج على ويندوز", tag: "إعداد" },
+        { id: "VukMOkjc6Q0", title: "إعدادات وفتح مشروع جديد", tag: "أساسيات" },
+        { id: "Y3Gzkqu5QiQ", title: "رسم الأرض الفلاحية على الطبقة المستهدفة", tag: "رقمنة" },
+        { id: "UYbhoD-qeIc", title: "حذف مساحة غير فلاحية وسط الأرض", tag: "رقمنة" },
+        { id: "GLKCVIbCijE", title: "حذف مساحة تشطر الأرض إلى قسمين", tag: "رقمنة" },
+        { id: "Tc746GM8eY0", title: "تعديل حدود أرض فلاحية مرسومة", tag: "تحرير" },
+        { id: "SAifbiTFoac", title: "تجنب تداخل الحدود المشتركة", tag: "دقة" },
+        { id: "_0B9vHsUeOA", title: "التحقق من عدم تداخل الحدود", tag: "دقة" },
+        { id: "TrWqqBku6BY", title: "خاصية منع التداخل أثناء الرسم", tag: "دقة" },
+        { id: "mkWVeX0zx2Q", title: "جمع الملفات من أجهزة متعددة", tag: "متقدم" },
+        { id: "KgVCioDJHRQ", title: "مقدمة عن تطبيق QField للعمل الميداني", tag: "ميداني" }
+    ];
+
+    // Render cards with staggered animation
+    const grid = document.getElementById('videoGrid');
+    videos.forEach((vid, i) => {
+        const card = document.createElement('div');
+        card.className = 'video-card reveal';
+        card.style.transitionDelay = `${(i % 3) * 0.1}s`;
+        card.innerHTML = `
+            <div class="video-thumb-wrapper" id="wrap-${vid.id}">
+                <span class="video-number">الدرس ${i + 1}</span>
+                <div class="yt-thumb" onclick="playVideo('${vid.id}')">
+                    <img 
+                        src="https://i.ytimg.com/vi/${vid.id}/hqdefault.jpg" 
+                        alt="${vid.title}"
+                        loading="lazy"
+                        onerror="this.src='https://i.ytimg.com/vi/${vid.id}/mqdefault.jpg'"
+                    >
+                    <div class="yt-play-btn">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="video-body">
+                <h3>${vid.title}</h3>
+                <div class="video-meta">
+                    <span class="video-tag">${vid.tag}</span>
+                    <span class="video-dot"><i class="fab fa-youtube"></i> يوتيوب</span>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+
+    // ====== PLAY VIDEO ON CLICK ======
+    function playVideo(id) {
+        const wrap = document.getElementById("wrap-" + id);
+        if (!wrap) return;
+        const thumb = wrap.querySelector(".yt-thumb");
+        if (thumb) thumb.remove();
+        const iframe = document.createElement("iframe");
+        iframe.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:none;";
+        wrap.appendChild(iframe);
+    }
+    // ====== SCROLL REVEAL ======
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ====== NAV SCROLL ======
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ====== SHARE ======
+    const pageUrl = window.location.href;
+    const shareText = "منصة تعليمية لرقمنة الأراضي الفلاحية عبر QGIS — المهندس حاج عبد القادر سمير:";
+
+    function shareOn(platform) {
+        const urls = {
+            wa: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + pageUrl)}`,
+            fb: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`,
+            tw: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareText)}`
+        };
+        window.open(urls[platform], '_blank');
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(pageUrl).then(() => {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2800);
+        });
+    }
+
+    // ====== COUNTER ANIMATION ======
+    function animateCounters() {
+        document.querySelectorAll('.stat-num').forEach(el => {
+            const target = parseInt(el.textContent);
+            if (isNaN(target)) return;
+            let current = 0;
+            const increment = Math.ceil(target / 24);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = current;
+            }, 50);
+        });
+    }
+
+    const heroObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            setTimeout(animateCounters, 600);
+            heroObserver.disconnect();
+        }
+    });
+    heroObserver.observe(document.querySelector('.hero-stats'));
+</script>
 </body>
 </html>
